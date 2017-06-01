@@ -1,0 +1,10 @@
+# Application name.
+spring.application.name: Improving Your Relational Database Architecture
+
+# JDBC url of the database.
+spring.datasource.url: jdbc:postgresql://localhost:5432/lajug
+# Login user of the database.
+spring.datasource.username: lajug
+# Login password of the database.
+spring.datasource.password:
+

@@ -1,10 +1,29 @@
 package org.lajug.rdbms.jdbc;
 
-import java.sql.*;
-import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Seed {
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+@SpringBootApplication
+public class Seed implements CommandLineRunner {
+
+	private final static Logger logger = LoggerFactory.getLogger(Seed.class);
+
+	private DataSource dataSource;
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 
 	public void nPlusOne() throws SQLException {
 		try (Connection con = buildConnection()) {
@@ -77,7 +96,7 @@ public class Seed {
 				int b = 0;
 				int c = 0;
 
-				for (int i = 0; i < 1000; i++) {
+				for (int i = 0; i < 10; i++) {
 					final ResultSet products_seq = products_seq_stmt.executeQuery();
 					final ResultSet options_seq = options_seq_stmt.executeQuery();
 					while (products_seq.next()) {
@@ -99,21 +118,21 @@ public class Seed {
 						b += 5;
 
 
-						if (b % 130 == 0) {
+						if (b % 1300 == 0) {
 							insert_products_stmt.executeBatch();
 							insert_options_stmt.executeBatch();
 							insert_option_values_stmt.executeBatch();
 							c++;
-						}
 
-						if (c % 10 == 0) {
-							con.commit();
-							System.out.println("Commit number:  " + c);
+							if (c % 10 == 0) {
+								con.commit();
+								System.out.println("Commit number:  " + c);
+							}
 						}
 					}
 				}
 
-				if (b % 130 != 0) {
+				if (b % 1300 != 0) {
 					insert_products_stmt.executeBatch();
 					insert_options_stmt.executeBatch();
 					insert_option_values_stmt.executeBatch();
@@ -151,16 +170,25 @@ public class Seed {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		Seed seed = new Seed();
-		seed.execute();
+		SpringApplication.run(Seed.class);
 	}
 
 	private Connection buildConnection() throws SQLException {
-		final String url = "jdbc:postgresql://galaxy:5432/lajug";
-		final Properties props = new Properties();
-		props.setProperty("user", "lajug");
-		props.setProperty("password", "lajug");
-		final Connection con = DriverManager.getConnection(url, props);
+		final Connection con = dataSource.getConnection();
 		return con;
+	}
+
+	@Override
+	public void run(String... strings) throws Exception {
+
+		final long start_time = System.currentTimeMillis();
+		logger.info("Starting batch at epoch time:  {}", start_time);
+
+		execute();
+
+		final long end_time = System.currentTimeMillis();
+		final long elapsed_time = end_time - start_time;
+		logger.info("batch elapsed time:  {}", elapsed_time);
+		logger.info("That is 10000 + 20000 + 100000 = 130000 writes in {} ms", elapsed_time);
 	}
 }
