@@ -1,0 +1,1 @@
+java -jar schemaSpy_5.0.0.jar -t pgsql -u lajug -o db -dp "/Users/minmay/.m2/repository/postgresql/postgresql/9.1-901.jdbc4/postgresql-9.1-901.jdbc4.jar" -host localhost -db "lajug" -s public -norows -hq -noads -nologo
