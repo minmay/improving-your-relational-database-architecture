@@ -1,0 +1,1 @@
+DROP FUNCTION audit_update_trigger;

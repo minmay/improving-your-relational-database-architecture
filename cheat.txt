@@ -1,0 +1,3 @@
+sudo su - postgres
+createuser lajug -d -l -s
+
