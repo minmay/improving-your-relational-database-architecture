@@ -7,5 +7,7 @@
 target
 
 .DS_Store
-.ideaDataSources/
+.ideaDataSources
 dataSources
+
+spy/db
