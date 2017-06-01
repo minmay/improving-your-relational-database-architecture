@@ -5,3 +5,6 @@
 *.ids
 
 target
+
+.DS_Store
+.ideaDataSources/
