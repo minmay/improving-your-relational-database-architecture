@@ -1,5 +1,7 @@
-# improving-your-relational-database-architecture
+# Improving Your Relational Database Architecture
 Code for presentation on improving relational database architecture.
+
+Presentation hosted at [Google Docs](https://docs.google.com/presentation/d/1IQeHJptGnU9TWCror8f5JPH1hC6xSBBTk8rRvcj_GOc/edit?usp=sharing).
 
 First build the postgres docker image.
 
