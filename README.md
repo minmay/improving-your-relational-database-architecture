@@ -25,7 +25,7 @@ cd db
 open index.html
 ```
 
-If you use Macports take note install graphviz with this command.
+If you use Macports you can install graphviz with this command.
 
 ```
 sudo port install graphviz
